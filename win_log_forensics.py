@@ -14,7 +14,7 @@ This script analyzes Windows event logs (EVTX) to identify suspicious activities
 The results can be exported to CSV or PDF reports for further analysis.
 
 To do:
-Currently exporting findings to CSV only (will be fixing the exporting findings to PDF) 
+Fix 2 errors (dates)
 
 """
 
