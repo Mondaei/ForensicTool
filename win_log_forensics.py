@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#python3
 # -*- coding: utf-8 -*-
 
 """
@@ -12,9 +12,6 @@ This script analyzes Windows event logs (EVTX) to identify suspicious activities
 - Other suspicious activities
 
 The results can be exported to CSV or PDF reports for further analysis.
-
-To do:
-Fix 2 errors (dates)
 
 """
 
@@ -79,42 +76,42 @@ class WindowsLogForensics:
         return datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
     
     def _parse_event_data(self, record):
-    """Parse XML event data into a dictionary"""
-    xml_string = record.xml()
-    root = ET.fromstring(xml_string)
-    
-    # Get namespace
-    ns = {"ns": re.match(r'{(.*)}', root.tag).group(1)}
-    
-    # Extract basic event information
-    system_elem = root.find(".//ns:System", ns)
-    event_id = system_elem.find("ns:EventID", ns).text
-    time_created = system_elem.find("ns:TimeCreated", ns).attrib["SystemTime"]
-    
-    # Try multiple datetime formats to handle different log formats
-    for fmt in ["%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S"]:
-        try:
-            time_created = datetime.datetime.strptime(time_created[:19], fmt)
-            break
-        except ValueError:
-            continue
-    
-    # Extract event data
-    event_data = {}
-    event_data_elem = root.find(".//ns:EventData", ns)
-    
-    if event_data_elem is not None:
-        for data in event_data_elem.findall("ns:Data", ns):
-            name = data.attrib.get("Name", "Data")
-            value = data.text or ""
-            event_data[name] = value
-    
-    return {
-        "EventID": event_id,
-        "TimeCreated": time_created,
-        "EventData": event_data,
-        "RawXML": xml_string
-    }
+        """Parse XML event data into a dictionary"""
+        xml_string = record.xml()
+        root = ET.fromstring(xml_string)
+        
+        # Get namespace
+        ns = {"ns": re.match(r'{(.*)}', root.tag).group(1)}
+        
+        # Extract basic event information
+        system_elem = root.find(".//ns:System", ns)
+        event_id = system_elem.find("ns:EventID", ns).text
+        time_created = system_elem.find("ns:TimeCreated", ns).attrib["SystemTime"]
+        
+        # Try multiple datetime formats to handle different log formats
+        for fmt in ["%Y-%m-%dT%H:%M:%S", "%Y-%m-%d %H:%M:%S"]:
+            try:
+                time_created = datetime.datetime.strptime(time_created[:19], fmt)
+                break
+            except ValueError:
+                continue
+        
+        # Extract event data
+        event_data = {}
+        event_data_elem = root.find(".//ns:EventData", ns)
+        
+        if event_data_elem is not None:
+            for data in event_data_elem.findall("ns:Data", ns):
+                name = data.attrib.get("Name", "Data")
+                value = data.text or ""
+                event_data[name] = value
+        
+        return {
+            "EventID": event_id,
+            "TimeCreated": time_created,
+            "EventData": event_data,
+            "RawXML": xml_string
+        }
     
     def _is_in_date_range(self, timestamp):
         """Check if timestamp is within the specified date range"""
