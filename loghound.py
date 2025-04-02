@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 """
-Windows Event Log Forensics Tool
+Group 4 - Windows Event Log Forensics Tool
 
 This script analyzes Windows event logs (EVTX) to identify suspicious activities including:
 - Failed login attempts
@@ -10,8 +10,6 @@ This script analyzes Windows event logs (EVTX) to identify suspicious activities
 - Account modifications
 - Persistence techniques
 - Other suspicious activities
-
-The results can be exported to CSV or PDF reports for further analysis.
 
 """
 
