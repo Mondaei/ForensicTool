@@ -8,8 +8,8 @@ This script analyzes Windows event logs (EVTX) to identify suspicious activities
 - Failed login attempts
 - Privilege escalation events
 - Account modifications
-- Persistence techniques
-- Other suspicious activities
+- Persistence techniques // Currently not working
+- Other suspicious activities // Currently not working
 
 """
 
@@ -386,10 +386,10 @@ class WindowsLogForensics:
             count = len(data)
             if count > 0:
                 # Display in red if findings exist
-                print(f"  {category}: \033[91m{count} events\033[0m")
+                print(f"  {category}: {count} events")
             else:
                 # Display in green if no findings
-                print(f"  {category}: \033[92m{count} events\033[0m")
+                print(f"  {category}: {count} events")
         
         print("\nCheck the output directory for detailed reports.")
     
@@ -400,8 +400,8 @@ class WindowsLogForensics:
         
         # Check if running with sufficient privileges
         if os.name == 'nt' and not os.environ.get('ADMINISTRATOR'):
-            print("\033[93mWarning: This script may not access all logs without administrator privileges.")
-            print("Consider running the script as Administrator for complete results.\033[0m\n")
+            print("Warning: This script may not access all logs without administrator privileges.")
+            print("Consider running the script as Administrator for complete results.\n")
         
         # Analyze logs
         self.analyze_security_log()
